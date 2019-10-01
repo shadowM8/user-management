@@ -31,8 +31,6 @@ const login = async (username, password) => {
       password: dbPass,
     } = findUser
 
-    console.log({dbUser, dbPass});
-
     const checkPassword = comparePass(password, dbPass)
 
     if (!checkPassword) throw new Error('invalid username / password');
