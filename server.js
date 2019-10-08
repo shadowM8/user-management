@@ -1,5 +1,6 @@
 const express = require('express'); // set up an express app
 // const jwt = require('express-jwt'); // for authentication with Auth0 JWT's
+const expressValidator = require('express-validator');
 const enrouten = require('express-enrouten'); // for easy route configuration 
 
 // import Error classes
@@ -35,6 +36,7 @@ app.use(function(req, res, next) {
     next();
   }
 });
+app.use(expressValidator())
 
 // auth0 JWT; reject requests that aren't authorized
 // client ID and secret should be stored in a .env file
