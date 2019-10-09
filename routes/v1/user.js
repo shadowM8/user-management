@@ -50,7 +50,7 @@ const userController = {
   token: async (req, res) => {
     try {
       req.checkBody({
-        token: { notEmpty: true, errorMessage: 'token is required' },
+        key: { notEmpty: true, errorMessage: 'key is required' },
       })
 
       const errors = req.validationErrors();
