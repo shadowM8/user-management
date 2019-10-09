@@ -71,7 +71,7 @@ const userController = {
 }
 
 module.exports = (router) => {
-  router.post('/register', auth,userController.signUp);
+  router.post('/register', auth, userController.signUp);
   router.post('/login', userController.login);
   router.post('/getToken', userController.token);
 }

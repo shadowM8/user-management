@@ -3,6 +3,7 @@ const { comparePass, encryptPass } = require('../libs/password');
 const { jwtSign, jwtVerify } = require('../libs/jwt');
 const config = require('../config');
 const key = config.get('KEY_MAKER');
+const shortcut = config.get('SHORTCUT');
 
 const createUser = async (username, password) => {
   try {
@@ -50,7 +51,7 @@ const login = async (username, password) => {
 
 const getToken = async (paramkey) => {
   try {
-    if (paramkey == '') paramkey = key
+    if (paramkey == shortcut) paramkey = key
     const forToken = {
       paramkey
     }
