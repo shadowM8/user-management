@@ -24,7 +24,7 @@ const userController = {
       return res.status(500).json(error);
     }
   },
-  login: async (req, res) => {
+  signIn: async (req, res) => {
     try {
       req.checkBody({
         username: { notEmpty: true, errorMessage: 'username is required' },
@@ -41,7 +41,7 @@ const userController = {
 
       const token = await login(username, password);
       return res.status(200).json({
-        token,
+        token, username,
       });
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -71,7 +71,7 @@ const userController = {
 };
 
 module.exports = (router) => {
-  router.post('/register', auth, userController.signUp);
-  router.post('/login', userController.login);
   router.post('/getToken', userController.token);
+  router.post('/register', auth, userController.signUp);
+  router.post('/login', userController.signIn);
 };
