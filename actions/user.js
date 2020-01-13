@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-catch */
 const { username: usernameModel } = require('../db/models/postgresql');
 const { comparePass } = require('../libs/password');
 const { jwtSign } = require('../libs/jwt');
@@ -15,7 +14,8 @@ const createUser = async (username, password) => {
     });
     return result;
   } catch (error) {
-    throw error;
+    const err = error.message;
+    throw err;
   }
 };
 
@@ -47,7 +47,8 @@ const login = async (username, password) => {
 
     return token;
   } catch (error) {
-    throw error;
+    const err = error.message;
+    throw err;
   }
 };
 
@@ -61,7 +62,8 @@ const getToken = async (paramkey) => {
     const token = jwtSign(forToken);
     return token;
   } catch (error) {
-    throw error;
+    const err = error.message;
+    throw err;
   }
 };
 

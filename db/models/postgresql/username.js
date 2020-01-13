@@ -3,7 +3,7 @@ const {encryptPass} = require('../../../libs/password');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('username', {
     id: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
         user.password = encryptPass(user.password)
       }
     },
-    tableName: 'user_name',
+    tableName: 'username',
     timestamps: true
   })
 }
