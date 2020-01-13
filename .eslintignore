@@ -1,0 +1,3 @@
+#Auto Generate Models
+db/models/postgresql/*.js
+db/migrations/*.js
