@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { todo } = require('../db/models/postgresql');
 
 const createTodo = async (todoData) => {
@@ -10,14 +11,41 @@ const createTodo = async (todoData) => {
   }
 };
 
-const getTodo = async (searchQuery) => {
+const getTodo = async (searchQuery = {}) => {
   const { id, name, dueDate } = searchQuery;
   try {
-    let query = {};
-    if (id) query = { where: { id } };
-    if (name) query.where.name = name;
-    if (dueDate) query.where.dueDate = dueDate;
-    const result = await todo.findAll(query);
+    const query = {};
+    if (id) {
+      query[Op.and] = [{ id }];
+    }
+
+    if (name && !id) {
+      query[Op.and] = [{ name: { [Op.substring]: name } }];
+    }
+
+    if (name && id) {
+      query[Op.and] = [...query[Op.and], { name: { [Op.substring]: name } }];
+    }
+
+    if (dueDate && !name && !id) {
+      query[Op.and] = [{ dueDate: new Date(dueDate) }];
+    }
+
+    if ((dueDate && name && !id) || (dueDate && name && id) || (dueDate && !name && id)) {
+      query[Op.and] = [...query[Op.and], { dueDate: new Date(dueDate) }];
+    }
+
+    const result = await todo.findAll({ where: query });
+    return result;
+  } catch (error) {
+    const err = error.message;
+    throw err;
+  }
+};
+
+const deleteTodo = async (todoId) => {
+  try {
+    const result = await todo.destroy({ where: { id: todoId } });
     return result;
   } catch (error) {
     const err = error.message;
@@ -28,4 +56,5 @@ const getTodo = async (searchQuery) => {
 module.exports = {
   createTodo,
   getTodo,
+  deleteTodo,
 };
