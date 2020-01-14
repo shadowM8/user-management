@@ -1,4 +1,6 @@
-const { createTodo, getTodo, deleteTodo } = require('../../actions/todo');
+const {
+  createTodo, getTodo, deleteTodo, updateTodo,
+} = require('../../actions/todo');
 
 const todoController = {
   create: async (req, res) => {
@@ -17,9 +19,7 @@ const todoController = {
       }
 
       const result = await createTodo(req.body);
-      return res.status(201).json({
-        result,
-      });
+      return res.status(201).json({ result });
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -61,10 +61,20 @@ const todoController = {
       return res.status(500).json(error);
     }
   },
+
+  update: async (req, res) => {
+    try {
+      const result = await updateTodo(req.body, req.params.id);
+      return res.status(200).json({ result });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  },
 };
 
 module.exports = (router) => {
   router.post('/', todoController.create);
   router.post('/search', todoController.get);
   router.delete('/remove', todoController.remove);
+  router.put('/update/:id', todoController.update);
 };

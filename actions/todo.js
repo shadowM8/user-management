@@ -53,8 +53,19 @@ const deleteTodo = async (todoId) => {
   }
 };
 
+const updateTodo = async (updatedTodoData, todoId) => {
+  try {
+    const result = await todo.update(updatedTodoData, { returning: true, where: { id: todoId } });
+    return result;
+  } catch (error) {
+    const err = error.message;
+    throw err;
+  }
+};
+
 module.exports = {
   createTodo,
   getTodo,
   deleteTodo,
+  updateTodo,
 };
