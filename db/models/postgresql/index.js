@@ -1,9 +1,10 @@
+/* eslint-disable import/no-dynamic-require */
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const sequelize = require('../../datasource/postgresql/database');
 const includes = require('lodash/includes');
 const replace = require('lodash/replace');
+const sequelize = require('../../datasource/postgresql/database');
 
 const basename = path.basename(__filename);
 const db = {};
@@ -15,9 +16,11 @@ fs.readdirSync(__dirname)
   .forEach((file) => {
     const fullPath = path.join(__dirname, file);
     const isAssociate = includes(file, '.associate.js');
-    
+
     if (isAssociate) {
       const repFile = replace(file, '.associate', '');
+      // eslint-disable-next-line import/no-dynamic-require
+      // eslint-disable-next-line global-require
       const associateModel = require(fullPath)(sequelize, path.join(__dirname, repFile));
       fileDefined = repFile;
       db[associateModel.name] = associateModel;
